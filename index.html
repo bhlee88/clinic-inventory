@@ -32,7 +32,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 </div></section>
 <main id="appMain" class="hidden"><div class="hospital-brand"><img src="youandi-logo.webp" alt="YOU&I 의정부점"></div><header><div><h1>📦 재고털이</h1><small>발주 · 입고 · 사용 · 재고 부족 알림</small></div></header><div class="card"><div class="row"><div><b id="currentAccount">로그인 확인 중</b><div class="help"><span id="roleLabel"></span> · <span id="dataDescription">온라인 연결 중</span> · <span id="connectionStatus">접속 확인 중</span></div></div><button id="logout" class="secondary">로그아웃</button></div></div><div class="metrics" id="metrics"></div><nav id="nav"><button data-view="stock" class="active">재고 현황</button><button data-view="receive">입고 등록</button><button data-view="use">사용 등록</button><button data-view="orders" data-inventory-manager>발주 관리</button><button data-view="items" data-inventory-manager>물품 관리</button><button data-view="history">기록 조회</button><button data-view="people" data-admin>직원 승인</button></nav>
 <section id="stock" class="view"><div class="card"><h2>재고 현황</h2><div class="row"><input id="search" placeholder="물품명·카테고리 검색" style="max-width:370px"><label style="font-weight:400"><input type="checkbox" id="onlyLow" style="width:auto"> 부족 물품만 보기</label></div><div id="lowNotice"></div><div class="tablewrap"><table><thead><tr><th>물품명</th><th>분류 / 규격</th><th>현재 재고</th><th>부족 기준</th><th>상태</th><th>미입고</th></tr></thead><tbody id="stockRows"></tbody></table></div></div></section>
-<section id="items" class="view hidden"><div class="card"><h2>새 물품 등록</h2><form id="itemForm"><div class="fields"><label>물품명 *<input name="name" required maxlength="80" placeholder="예: 니들 30G"></label><label>카테고리<select name="category"><option>의약품·주사제</option><option>시술 재료</option><option>의료 소모품</option><option>위생·청소용품</option><option>사무용품</option><option>기타</option></select></label><label>규격<input name="spec" placeholder="예: 100개입"></label><label>단위 *<input name="unit" required placeholder="개, 박스, 병 등"></label><label>초기 재고 *<input name="initial" type="number" min="0" step="1" required value="0"></label><label>재고 부족 알림 기준 *<input name="threshold" type="number" min="0" step="1" required value="10"></label><label>거래처<input name="vendor" placeholder="선택 입력"></label></div><div class="actions"><button>물품 등록</button></div></form></div><div class="card"><h2>등록된 물품 · 기준 수량 수정</h2><div id="itemList"></div></div></section>
+<section id="items" class="view hidden"><div class="card"><h2>새 물품 등록</h2><form id="itemForm"><div class="fields"><label>물품명 *<input name="name" required maxlength="80" placeholder="예: 니들 30G"></label><label>카테고리<select name="category"><option>의약품·주사제</option><option>시술 재료</option><option>의료 소모품</option><option>위생·청소용품</option><option>사무용품</option><option>기타</option></select></label><label>규격<input name="spec" placeholder="예: 100개입"></label><label>단위 *<input name="unit" required placeholder="개, 박스, 병 등"></label><label>초기 재고 *<input name="initial" type="number" min="0" step="1" required value="0"></label><label>재고 부족 알림 기준 *<input name="threshold" type="number" min="0" step="1" required value="10"></label><label>거래처<input name="vendor" placeholder="선택 입력"></label></div><div class="actions"><button>물품 등록</button></div></form></div><div class="card"><h2>등록된 물품 · 기준 수량 수정</h2><div id="itemList"></div><p class="help" data-admin>관리자 전용 전체 삭제는 해당 물품의 발주·입고·사용 기록(취소 기록 포함)까지 영구 삭제합니다. 삭제 전 필요한 자료를 별도 보관하세요.</p></div></section>
 <section id="orders" class="view hidden"><div class="card"><h2>발주 등록</h2><form id="orderForm"><div class="fields"><label>물품 *<select name="itemId" class="itemSelect" required></select></label><label>주문일 *<input type="date" name="date" required></label><label>주문 수량 *<input type="number" name="qty" min="1" step="1" required></label><label>입고 예정일<input type="date" name="due"></label><label>거래처<input name="vendor"></label><label>비고<input name="note"></label></div><div class="actions"><button>발주 저장</button></div></form></div><div class="card"><h2>발주 내역 · 미입고 수량</h2><div class="tablewrap"><table><thead><tr><th>주문일</th><th>물품</th><th>주문량</th><th>입고량</th><th>미입고</th><th>예정일</th><th>관리</th></tr></thead><tbody id="orderRows"></tbody></table></div></div></section>
 <section id="receive" class="view hidden"><div class="card"><h2>입고 등록</h2><form id="receiveForm"><div class="fields"><label>물품 *<select name="itemId" class="itemSelect" required></select></label><label>입고일 *<input type="date" name="date" required></label><label>입고 수량 *<input type="number" name="qty" min="1" step="1" required></label><label>연결할 발주 (선택)<select name="orderId" id="receiveOrder"><option value="">발주 연결 없이 입고</option></select></label><label>입력자 (로그인 계정) *<input name="actor" required readonly placeholder="로그인 시 자동 입력"></label><label>LOT / 제조번호<input name="lot"></label><label>유효기간<input type="date" name="expiry"></label><label>비고<input name="note"></label></div><div class="actions"><button>입고 저장</button></div></form><p class="help">발주를 연결하면 미입고 수량이 자동으로 줄어듭니다. 발주하지 않은 물품도 입고할 수 있습니다.</p></div></section>
 <section id="use" class="view hidden"><div class="card"><h2>사용 등록</h2><form id="useForm"><div class="fields"><label>물품 *<select name="itemId" class="itemSelect" required></select></label><label>사용일 *<input type="date" name="date" required></label><label>사용 수량 *<input type="number" name="qty" min="1" step="1" required></label><label>사용 직원 (로그인 계정) *<input name="actor" required readonly placeholder="로그인 시 자동 입력"></label><label>사용 목적<input name="note" placeholder="예: 시술실 사용"></label></div><div class="actions"><button>사용 저장</button></div></form><p class="help">재고보다 많이 사용하는 기록은 등록할 수 없습니다.</p></div></section>
@@ -192,10 +192,10 @@ function render() {
  }).join('')||'<tr><td colspan="6" class="empty">등록된 물품이 없습니다.</td></tr>';
  document.querySelectorAll('.itemSelect').forEach(sel=>{
    const old=sel.value;
-   sel.innerHTML='<option value="">물품 선택</option>'+items.map(i=>`<option value="${esc(i.id)}">${esc(i.name)} (${esc(i.unit||'개')})</option>`).join('');
-   sel.value=items.some(i=>i.id===old)?old:'';
+   sel.innerHTML='<option value="">물품 선택</option>'+items.filter(i=>!i.deleting).map(i=>`<option value="${esc(i.id)}">${esc(i.name)} (${esc(i.unit||'개')})</option>`).join('');
+   sel.value=items.some(i=>i.id===old&&!i.deleting)?old:'';
  });
- $('itemList').innerHTML=items.map(i=>`<div class="row" style="padding:11px 0;border-bottom:1px solid #e8edf4"><div><span class="itemname">${esc(i.name)}</span> <small>${esc(i.spec||'')} · ${esc(i.category||'기타')}</small><div class="help">현재 ${n(currentStock(i))}${esc(i.unit||'개')} · 등록 당시 ${n(i.initial??i.stock??0)}${esc(i.unit||'개')}</div></div><div class="row"><label>알림 기준 <input aria-label="${esc(i.name)} 기준" type="number" min="0" step="1" style="width:95px" id="th-${esc(i.id)}" value="${threshold(i)}"></label><button class="secondary" data-th="${esc(i.id)}">기준 저장</button></div></div>`).join('')||'<div class="empty">등록된 물품이 없습니다.</div>';
+ $('itemList').innerHTML=items.map(i=>`<div class="row" style="padding:11px 0;border-bottom:1px solid #e8edf4"><div><span class="itemname">${esc(i.name)}</span> <small>${esc(i.spec||'')} · ${esc(i.category||'기타')}</small><div class="help">현재 ${n(currentStock(i))}${esc(i.unit||'개')} · 등록 당시 ${n(i.initial??i.stock??0)}${esc(i.unit||'개')}${i.deleting?' · 삭제 진행 중':''}</div></div><div class="row">${i.deleting?'':`<label>알림 기준 <input aria-label="${esc(i.name)} 기준" type="number" min="0" step="1" style="width:95px" id="th-${esc(i.id)}" value="${threshold(i)}"></label><button class="secondary" data-th="${esc(i.id)}">기준 저장</button>`}${role==='admin'?`<button class="danger" data-purgeitem="${esc(i.id)}">${i.deleting?'삭제 계속':'물품·전체 기록 삭제'}</button>`:''}</div></div>`).join('')||'<div class="empty">등록된 물품이 없습니다.</div>';
  $('orderRows').innerHTML=[...orders].sort((a,b)=>String(b.createdAt?.seconds??0).localeCompare(String(a.createdAt?.seconds??0))).map(o=>`<tr><td>${esc(o.date)}</td><td>${esc(item(o.itemId)?.name||'삭제된 물품')}</td><td>${n(o.qty)}</td><td>${n(received(o))}</td><td>${n(outstanding(o))}</td><td>${esc(o.due||'')}</td><td>${o.canceled?'취소됨':canManageInventory()&&received(o)===0?`<button class="secondary" data-cancelorder="${esc(o.id)}">발주 취소</button>`:''}</td></tr>`).join('')||'<tr><td colspan="7" class="empty">발주 내역이 없습니다.</td></tr>';
  refreshOrders();
  $('historyRows').innerHTML=[...moves].sort((a,b)=>(num(b.createdAt?.seconds)-num(a.createdAt?.seconds))).map(m=>{
@@ -235,7 +235,36 @@ $('orderForm').onsubmit=e=>{e.preventDefault();if(!canManageInventory())return;
 $('receiveForm').onsubmit=e=>{e.preventDefault();submitServer(e.target,'recordInventoryMove',f=>({type:'receive',itemId:val(f,'itemId'),date:val(f,'date'),qty:intField(f,'qty'),orderId:val(f,'orderId'),lot:val(f,'lot'),expiry:val(f,'expiry'),note:val(f,'note')}),f=>{f.elements.qty.value='';f.elements.note.value='';f.elements.lot.value='';f.elements.expiry.value='';});};
 $('useForm').onsubmit=e=>{e.preventDefault();submitServer(e.target,'recordInventoryMove',f=>({type:'use',itemId:val(f,'itemId'),date:val(f,'date'),qty:intField(f,'qty'),note:val(f,'note')}),f=>{f.elements.qty.value='';f.elements.note.value='';});};
 $('itemList').onclick=async e=>{
- const b=e.target.closest('[data-th]');if(!b||!canManageInventory())return;
+ const purgeButton=e.target.closest('[data-purgeitem]');
+ if(purgeButton){
+   // UI guard is a convenience only: Google admin identity is verified again
+   // inside the Cloud Function. Managers and normal staff cannot invoke it.
+   if(role!=='admin'||working)return;
+   const id=purgeButton.dataset.purgeitem, selected=state.items.find(i=>i.id===id);
+   if(!selected)return alert('선택한 물품을 찾을 수 없습니다.');
+   const orderCount=state.orders.filter(o=>o.itemId===id).length;
+   const moveCount=state.moves.filter(m=>m.itemId===id).length;
+   if(!confirm(`「${selected.name}」 전체 삭제\n\n발주 ${orderCount}건 · 입고/사용/취소 이력 ${moveCount}건을 포함하여 모두 영구 삭제합니다.\n다른 직원의 화면에서도 삭제되며 되돌릴 수 없습니다.\n\n계속하시겠습니까?`))return;
+   const check=prompt(`마지막 확인: 삭제할 물품명을 아래에 그대로 입력하세요.\n\n${selected.name}`);
+   if(check===null)return;
+   if(check!==selected.name)return alert('물품명이 정확히 일치하지 않아 삭제를 취소했습니다.');
+   working=true;purgeButton.disabled=true;
+   try{
+     let totalOrders=0,totalMoves=0,done=false;
+     for(let pass=0;pass<100;pass++){
+       const result=await call('deleteInventoryItemCompletely',{itemId:id,confirmName:selected.name});
+       totalOrders+=Number(result.removed?.orders||0);
+       totalMoves+=Number(result.removed?.moves||0);
+       if(result.done){done=true;break;}
+       notify(`기록 삭제 진행 중: 발주 ${totalOrders}건 · 입출고 ${totalMoves}건`);
+     }
+     if(!done)throw Error('삭제할 기록이 많습니다. 잠시 후 ‘삭제 계속’을 다시 눌러주세요.');
+     notify(`「${selected.name}」 삭제 완료 · 발주 ${totalOrders}건, 이력 ${totalMoves}건`);
+   }catch(x){alert('삭제를 끝내지 못했습니다. 일부 기록이 삭제되었을 수 있습니다. 물품 관리의 ‘삭제 계속’으로 재개하세요.\n\n'+errText(x));}
+   finally{working=false;purgeButton.disabled=false;}
+   return;
+ }
+ const b=e.target.closest('[data-th]');if(!b||!canManageInventory()||working)return;
  const id=b.dataset.th,v=Number($('th-'+id).value);
  if(!Number.isSafeInteger(v)||v<0)return alert('0 이상의 정수를 입력하세요.');
  b.disabled=true;try{await call('setInventoryThreshold',{itemId:id,threshold:v});notify('알림 기준을 변경했습니다.');}
