@@ -14,13 +14,13 @@
 <h3>관리자 로그인</h3><button type="button" id="googleLogin" class="secondary" style="width:100%">Google 계정으로 관리자 로그인</button>
 <div class="auth-note">직원은 가입 신청 후 관리자 승인이 필요합니다. 승인 전에는 재고를 볼 수 없습니다. 공용 기기에서는 사용 후 로그아웃하세요. PIN은 서버에서 검증합니다.</div>
 </div></section>
-<main id="appMain" class="hidden"><header><div><h1>📦 원내 재고관리</h1><small>발주 · 입고 · 사용 · 재고 부족 알림</small></div><span class="tag">온라인 공유판 · Firebase</span></header><div class="card"><div class="row"><div><b id="currentAccount">로그인 확인 중</b><div class="help"><span id="roleLabel"></span> · <span id="dataDescription">온라인 연결 중</span> · <span id="connectionStatus">접속 확인 중</span></div></div><button id="logout" class="secondary">로그아웃</button></div></div><div class="metrics" id="metrics"></div><nav id="nav"><button data-view="stock" class="active">재고 현황</button><button data-view="receive">입고 등록</button><button data-view="use">사용 등록</button><button data-view="orders" data-admin>발주 관리</button><button data-view="items" data-admin>물품 관리</button><button data-view="history">기록 조회</button><button data-view="people" data-admin>직원 승인</button></nav>
+<main id="appMain" class="hidden"><header><div><h1>📦 원내 재고관리</h1><small>발주 · 입고 · 사용 · 재고 부족 알림</small></div><span class="tag">온라인 공유판 · Firebase</span></header><div class="card"><div class="row"><div><b id="currentAccount">로그인 확인 중</b><div class="help"><span id="roleLabel"></span> · <span id="dataDescription">온라인 연결 중</span> · <span id="connectionStatus">접속 확인 중</span></div></div><button id="logout" class="secondary">로그아웃</button></div></div><div class="metrics" id="metrics"></div><nav id="nav"><button data-view="stock" class="active">재고 현황</button><button data-view="receive">입고 등록</button><button data-view="use">사용 등록</button><button data-view="orders" data-inventory-manager>발주 관리</button><button data-view="items" data-inventory-manager>물품 관리</button><button data-view="history">기록 조회</button><button data-view="people" data-admin>직원 승인</button></nav>
 <section id="stock" class="view"><div class="card"><h2>재고 현황</h2><div class="row"><input id="search" placeholder="물품명·카테고리 검색" style="max-width:370px"><label style="font-weight:400"><input type="checkbox" id="onlyLow" style="width:auto"> 부족 물품만 보기</label></div><div id="lowNotice"></div><div class="tablewrap"><table><thead><tr><th>물품명</th><th>분류 / 규격</th><th>현재 재고</th><th>부족 기준</th><th>상태</th><th>미입고</th></tr></thead><tbody id="stockRows"></tbody></table></div></div></section>
 <section id="items" class="view hidden"><div class="card"><h2>새 물품 등록</h2><form id="itemForm"><div class="fields"><label>물품명 *<input name="name" required maxlength="80" placeholder="예: 니들 30G"></label><label>카테고리<select name="category"><option>의약품·주사제</option><option>시술 재료</option><option>의료 소모품</option><option>위생·청소용품</option><option>사무용품</option><option>기타</option></select></label><label>규격<input name="spec" placeholder="예: 100개입"></label><label>단위 *<input name="unit" required placeholder="개, 박스, 병 등"></label><label>초기 재고 *<input name="initial" type="number" min="0" step="1" required value="0"></label><label>재고 부족 알림 기준 *<input name="threshold" type="number" min="0" step="1" required value="10"></label><label>거래처<input name="vendor" placeholder="선택 입력"></label></div><div class="actions"><button>물품 등록</button></div></form></div><div class="card"><h2>등록된 물품 · 기준 수량 수정</h2><div id="itemList"></div></div></section>
 <section id="orders" class="view hidden"><div class="card"><h2>발주 등록</h2><form id="orderForm"><div class="fields"><label>물품 *<select name="itemId" class="itemSelect" required></select></label><label>주문일 *<input type="date" name="date" required></label><label>주문 수량 *<input type="number" name="qty" min="1" step="1" required></label><label>입고 예정일<input type="date" name="due"></label><label>거래처<input name="vendor"></label><label>비고<input name="note"></label></div><div class="actions"><button>발주 저장</button></div></form></div><div class="card"><h2>발주 내역 · 미입고 수량</h2><div class="tablewrap"><table><thead><tr><th>주문일</th><th>물품</th><th>주문량</th><th>입고량</th><th>미입고</th><th>예정일</th><th>관리</th></tr></thead><tbody id="orderRows"></tbody></table></div></div></section>
 <section id="receive" class="view hidden"><div class="card"><h2>입고 등록</h2><form id="receiveForm"><div class="fields"><label>물품 *<select name="itemId" class="itemSelect" required></select></label><label>입고일 *<input type="date" name="date" required></label><label>입고 수량 *<input type="number" name="qty" min="1" step="1" required></label><label>연결할 발주 (선택)<select name="orderId" id="receiveOrder"><option value="">발주 연결 없이 입고</option></select></label><label>입력자 (로그인 계정) *<input name="actor" required readonly placeholder="로그인 시 자동 입력"></label><label>LOT / 제조번호<input name="lot"></label><label>유효기간<input type="date" name="expiry"></label><label>비고<input name="note"></label></div><div class="actions"><button>입고 저장</button></div></form><p class="help">발주를 연결하면 미입고 수량이 자동으로 줄어듭니다. 발주하지 않은 물품도 입고할 수 있습니다.</p></div></section>
 <section id="use" class="view hidden"><div class="card"><h2>사용 등록</h2><form id="useForm"><div class="fields"><label>물품 *<select name="itemId" class="itemSelect" required></select></label><label>사용일 *<input type="date" name="date" required></label><label>사용 수량 *<input type="number" name="qty" min="1" step="1" required></label><label>사용 직원 (로그인 계정) *<input name="actor" required readonly placeholder="로그인 시 자동 입력"></label><label>사용 목적<input name="note" placeholder="예: 시술실 사용"></label></div><div class="actions"><button>사용 저장</button></div></form><p class="help">재고보다 많이 사용하는 기록은 등록할 수 없습니다.</p></div></section>
-<section id="history" class="view hidden"><div class="card"><div class="row"><h2>입고·사용·조정 이력</h2><button class="secondary" id="exportCsv">CSV 다운로드</button></div><div class="tablewrap"><table><thead><tr><th>날짜</th><th>구분</th><th>물품</th><th>수량</th><th>입력자</th><th>비고</th><th>관리</th></tr></thead><tbody id="historyRows"></tbody></table></div><p class="help">관리자만 기록을 취소할 수 있습니다. 취소된 기록은 감사 이력으로 남고, 재고는 서버에서 자동으로 되돌아갑니다.</p></div></section>
+<section id="history" class="view hidden"><div class="card"><div class="row"><h2>입고·사용·조정 이력</h2><button class="secondary" id="exportCsv">CSV 다운로드</button></div><div class="tablewrap"><table><thead><tr><th>날짜</th><th>구분</th><th>물품</th><th>수량</th><th>입력자</th><th>비고</th><th>관리</th></tr></thead><tbody id="historyRows"></tbody></table></div><p class="help">관리자와 재고관리 담당자만 기록을 취소할 수 있습니다. 취소된 기록은 감사 이력으로 남고, 재고는 서버에서 자동으로 되돌아갑니다.</p></div></section>
 <section id="people" class="view hidden"><div class="card"><div class="row"><h2>직원 가입 승인 · 차단</h2><button id="refreshStaff" class="secondary">목록 새로고침</button></div><p class="help">가입 신청한 직원을 확인한 뒤 승인하세요. 차단하면 해당 직원은 재고 데이터에 접근할 수 없습니다. PIN은 관리자에게 표시되지 않습니다.</p><div id="staffList"></div></div></section>
 <div class="card"><small>재고 데이터는 병원 Firebase에 실시간 저장됩니다. 예전 시험판의 브라우저 데이터는 자동으로 이전되지 않습니다. 환자명이나 민감한 개인정보는 입력하지 마세요. 이 버전은 실제 권한과 재고 정합성 검증 후 운영하세요.</small></div></main><div id="toast" role="status"></div><script type="module">
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';
@@ -31,7 +31,7 @@ import {getFunctions, httpsCallable} from 'https://www.gstatic.com/firebasejs/13
 
 // Firebase Web SDK values are PUBLIC client configuration, never PIN_PEPPER or admin secrets.
 const firebaseConfig = {
-  apiKey: 'AIzaSyDWolebMmDuV7qWGzdxq79DY3o1JdiypuE',
+  apiKey: 'AIzaSyDWolebMmDuV7qWGzdxq79DY3olJdiypuE',
   authDomain: 'clinic-inventory-f745e.firebaseapp.com',
   projectId: 'clinic-inventory-f745e',
   storageBucket: 'clinic-inventory-f745e.firebasestorage.app',
@@ -49,6 +49,7 @@ const n = v => Number(v).toLocaleString('ko-KR');
 const num = v => Number(v) || 0;
 const state = {items:[], orders:[], moves:[]};
 let role = '', userName = '', view='stock', unsubs=[], generation=0, working=false;
+const canManageInventory = () => role === 'admin' || role === 'manager';
 function notify(msg) {let el=$('toast'); el.textContent=msg;el.style.display='block';clearTimeout(window._toast);window._toast=setTimeout(()=>el.style.display='none',4000);}
 function errText(err) {
   const code = String(err?.code || '');
@@ -76,11 +77,11 @@ function showLogin(message='') {
 }
 function showApp() {
   $('loginScreen').classList.add('hidden');$('appMain').classList.remove('hidden');
-  $('currentAccount').textContent=(role==='admin'?'관리자 · ':'직원 · ')+userName;
-  $('roleLabel').textContent=role==='admin'?'관리자':'직원';
+  $('currentAccount').textContent=(role==='admin'?'관리자 · ':role==='manager'?'재고관리 담당자 · ':'직원 · ')+userName;
+  $('roleLabel').textContent=role==='admin'?'관리자':role==='manager'?'재고관리 담당자':'직원';
   $('dataDescription').textContent='온라인 실시간 공유 · Firestore 저장';
   ['receiveForm','useForm'].forEach(id=>{const inp=$(id).elements.actor;inp.value=userName;inp.readOnly=true;});
-  if(role!=='admin'&&['orders','items','people'].includes(view))view='stock';
+  if((!canManageInventory()&&['orders','items'].includes(view))||(role!=='admin'&&view==='people'))view='stock';
   render();
 }
 function startStreams() {
@@ -179,14 +180,15 @@ function render() {
    sel.value=items.some(i=>i.id===old)?old:'';
  });
  $('itemList').innerHTML=items.map(i=>`<div class="row" style="padding:11px 0;border-bottom:1px solid #e8edf4"><div><span class="itemname">${esc(i.name)}</span> <small>${esc(i.spec||'')} · ${esc(i.category||'기타')}</small><div class="help">현재 ${n(currentStock(i))}${esc(i.unit||'개')} · 등록 당시 ${n(i.initial??i.stock??0)}${esc(i.unit||'개')}</div></div><div class="row"><label>알림 기준 <input aria-label="${esc(i.name)} 기준" type="number" min="0" step="1" style="width:95px" id="th-${esc(i.id)}" value="${threshold(i)}"></label><button class="secondary" data-th="${esc(i.id)}">기준 저장</button></div></div>`).join('')||'<div class="empty">등록된 물품이 없습니다.</div>';
- $('orderRows').innerHTML=[...orders].sort((a,b)=>String(b.createdAt?.seconds??0).localeCompare(String(a.createdAt?.seconds??0))).map(o=>`<tr><td>${esc(o.date)}</td><td>${esc(item(o.itemId)?.name||'삭제된 물품')}</td><td>${n(o.qty)}</td><td>${n(received(o))}</td><td>${n(outstanding(o))}</td><td>${esc(o.due||'')}</td><td>${o.canceled?'취소됨':role==='admin'&&received(o)===0?`<button class="secondary" data-cancelorder="${esc(o.id)}">발주 취소</button>`:''}</td></tr>`).join('')||'<tr><td colspan="7" class="empty">발주 내역이 없습니다.</td></tr>';
+ $('orderRows').innerHTML=[...orders].sort((a,b)=>String(b.createdAt?.seconds??0).localeCompare(String(a.createdAt?.seconds??0))).map(o=>`<tr><td>${esc(o.date)}</td><td>${esc(item(o.itemId)?.name||'삭제된 물품')}</td><td>${n(o.qty)}</td><td>${n(received(o))}</td><td>${n(outstanding(o))}</td><td>${esc(o.due||'')}</td><td>${o.canceled?'취소됨':canManageInventory()&&received(o)===0?`<button class="secondary" data-cancelorder="${esc(o.id)}">발주 취소</button>`:''}</td></tr>`).join('')||'<tr><td colspan="7" class="empty">발주 내역이 없습니다.</td></tr>';
  refreshOrders();
  $('historyRows').innerHTML=[...moves].sort((a,b)=>(num(b.createdAt?.seconds)-num(a.createdAt?.seconds))).map(m=>{
    let sign=m.type==='receive'?'+':m.type==='use'?'-':num(m.qty)>0?'+':'';
-   return `<tr style="${m.canceled?'opacity:.55;text-decoration:line-through;':''}"><td>${esc(m.date)}</td><td>${m.canceled?'취소됨 · ':''}${m.type==='receive'?'입고':m.type==='use'?'사용':'조정'}</td><td>${esc(item(m.itemId)?.name||'삭제된 물품')}</td><td>${sign}${n(m.qty)}</td><td>${esc(m.actor||'')}</td><td>${esc(m.note||'')} ${m.lot?'· LOT '+esc(m.lot):''} ${m.expiry?'· 기한 '+esc(m.expiry):''}</td><td>${role==='admin'&&!m.canceled?`<button class="secondary" data-cancelmove="${esc(m.id)}">취소</button>`:''}</td></tr>`;
+   return `<tr style="${m.canceled?'opacity:.55;text-decoration:line-through;':''}"><td>${esc(m.date)}</td><td>${m.canceled?'취소됨 · ':''}${m.type==='receive'?'입고':m.type==='use'?'사용':'조정'}</td><td>${esc(item(m.itemId)?.name||'삭제된 물품')}</td><td>${sign}${n(m.qty)}</td><td>${esc(m.actor||'')}</td><td>${esc(m.note||'')} ${m.lot?'· LOT '+esc(m.lot):''} ${m.expiry?'· 기한 '+esc(m.expiry):''}</td><td>${canManageInventory()&&!m.canceled?`<button class="secondary" data-cancelmove="${esc(m.id)}">취소</button>`:''}</td></tr>`;
  }).join('')||'<tr><td colspan="7" class="empty">입출고 기록이 없습니다.</td></tr>';
  document.querySelectorAll('[data-admin]').forEach(b=>b.classList.toggle('hidden',role!=='admin'));
- if(role!=='admin'&&['items','orders','people'].includes(view))view='stock';
+ document.querySelectorAll('[data-inventory-manager]').forEach(b=>b.classList.toggle('hidden',!canManageInventory()));
+ if((!canManageInventory()&&['orders','items'].includes(view))||(role!=='admin'&&view==='people'))view='stock';
  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('hidden',s.id!==view));
  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
 }
@@ -205,32 +207,32 @@ async function submitServer(f, fn, values, onSuccess){
  catch(e){alert(errText(e));}
  finally{working=false;if(b)b.disabled=false;}
 }
-function requireAdminUI(){if(role!=='admin')throw Error('관리자 전용 기능입니다.');}
+
 for(const el of document.querySelectorAll('input[type=date]'))if(el.name==='date')el.value=today();
-$('nav').onclick=e=>{const b=e.target.closest('[data-view]');if(!b)return;if(b.hasAttribute('data-admin')&&role!=='admin')return;view=b.dataset.view;render();if(view==='people')loadStaff();};
+$('nav').onclick=e=>{const b=e.target.closest('[data-view]');if(!b)return;if((b.hasAttribute('data-admin')&&role!=='admin')||(b.hasAttribute('data-inventory-manager')&&!canManageInventory()))return;view=b.dataset.view;render();if(view==='people')loadStaff();};
 $('search').oninput=render;$('onlyLow').onchange=render;
 $('receiveForm').elements.itemId.onchange=refreshOrders;
-$('itemForm').onsubmit=e=>{e.preventDefault();if(role!=='admin')return;
+$('itemForm').onsubmit=e=>{e.preventDefault();if(!canManageInventory())return;
  submitServer(e.target,'createInventoryItem',f=>({name:val(f,'name'),category:val(f,'category'),spec:val(f,'spec'),unit:val(f,'unit'),initial:intField(f,'initial',0),threshold:intField(f,'threshold',0),vendor:val(f,'vendor')}), f=>{f.reset();f.elements.initial.value=0;f.elements.threshold.value=10;});};
-$('orderForm').onsubmit=e=>{e.preventDefault();if(role!=='admin')return;
+$('orderForm').onsubmit=e=>{e.preventDefault();if(!canManageInventory())return;
  submitServer(e.target,'createInventoryOrder',f=>({itemId:val(f,'itemId'),date:val(f,'date'),qty:intField(f,'qty'),due:val(f,'due'),vendor:val(f,'vendor'),note:val(f,'note')}),f=>{f.reset();f.elements.date.value=today();});};
 $('receiveForm').onsubmit=e=>{e.preventDefault();submitServer(e.target,'recordInventoryMove',f=>({type:'receive',itemId:val(f,'itemId'),date:val(f,'date'),qty:intField(f,'qty'),orderId:val(f,'orderId'),lot:val(f,'lot'),expiry:val(f,'expiry'),note:val(f,'note')}),f=>{f.elements.qty.value='';f.elements.note.value='';f.elements.lot.value='';f.elements.expiry.value='';});};
 $('useForm').onsubmit=e=>{e.preventDefault();submitServer(e.target,'recordInventoryMove',f=>({type:'use',itemId:val(f,'itemId'),date:val(f,'date'),qty:intField(f,'qty'),note:val(f,'note')}),f=>{f.elements.qty.value='';f.elements.note.value='';});};
 $('itemList').onclick=async e=>{
- const b=e.target.closest('[data-th]');if(!b||role!=='admin')return;
+ const b=e.target.closest('[data-th]');if(!b||!canManageInventory())return;
  const id=b.dataset.th,v=Number($('th-'+id).value);
  if(!Number.isSafeInteger(v)||v<0)return alert('0 이상의 정수를 입력하세요.');
  b.disabled=true;try{await call('setInventoryThreshold',{itemId:id,threshold:v});notify('알림 기준을 변경했습니다.');}
  catch(x){alert(errText(x));}finally{b.disabled=false;}
 };
 $('orderRows').onclick=async e=>{
- const b=e.target.closest('[data-cancelorder]');if(!b||role!=='admin')return;
+ const b=e.target.closest('[data-cancelorder]');if(!b||!canManageInventory())return;
  if(!confirm('이 발주를 취소할까요? 기록은 감사용으로 보존됩니다.'))return;
  b.disabled=true;try{await call('cancelInventoryOrder',{orderId:b.dataset.cancelorder});notify('발주를 취소했습니다.');}
  catch(x){alert(errText(x));}finally{b.disabled=false;}
 };
 $('historyRows').onclick=async e=>{
- const b=e.target.closest('[data-cancelmove]');if(!b||role!=='admin')return;
+ const b=e.target.closest('[data-cancelmove]');if(!b||!canManageInventory())return;
  if(!confirm('이 기록을 취소할까요? 재고를 자동으로 되돌리고 취소 이력을 남깁니다.'))return;
  b.disabled=true;try{await call('cancelInventoryMove',{moveId:b.dataset.cancelmove});notify('기록을 취소했습니다.');}
  catch(x){alert(errText(x));}finally{b.disabled=false;}
@@ -238,7 +240,7 @@ $('historyRows').onclick=async e=>{
 async function loadStaff(){
  if(role!=='admin')return;const el=$('staffList');el.textContent='직원 목록 불러오는 중...';
  try{const result=await call('listStaff');
- el.innerHTML=result.staff.map(s=>`<div class="row" style="padding:11px 0;border-bottom:1px solid #e8edf4"><div><b>${esc(s.name)}</b><div class="help">상태: ${s.status==='approved'?'승인됨':s.status==='pending'?'승인 대기':'차단됨'} · 신청일: ${esc((s.createdAt||'').slice(0,10))}</div></div><div class="actions" style="margin:0"><button class="secondary" data-staff="${esc(s.uid)}" data-status="approved" ${s.status==='approved'?'disabled':''}>승인</button><button class="danger" data-staff="${esc(s.uid)}" data-status="blocked" ${s.status==='blocked'?'disabled':''}>차단</button></div></div>`).join('')||'<div class="empty">가입 신청한 직원이 없습니다.</div>';
+ el.innerHTML=result.staff.map(s=>`<div class="row" style="padding:11px 0;border-bottom:1px solid #e8edf4"><div><b>${esc(s.name)}</b><div class="help">상태: ${s.status==='approved'?'승인됨':s.status==='pending'?'승인 대기':'차단됨'} · 신청일: ${esc((s.createdAt||'').slice(0,10))}</div></div><div class="actions" style="margin:0"><button class="secondary" data-staff="${esc(s.uid)}" data-status="approved" ${s.status==='approved'?'disabled':''}>승인</button><button class="danger" data-staff="${esc(s.uid)}" data-status="blocked" ${s.status==='blocked'?'disabled':''}>차단</button>${s.eligibleForInventoryManager?`<button class="secondary" data-manager-uid="${esc(s.uid)}" data-manager-enable="${s.inventoryManager?'false':'true'}" ${s.status!=='approved'?'disabled':''}>${s.inventoryManager?'재고관리 권한 회수':'재고관리 권한 부여'}</button>`:''}</div></div>`).join('')||'<div class="empty">가입 신청한 직원이 없습니다.</div>';
  }catch(x){el.textContent='직원 목록 조회 실패: '+errText(x);}
 }
 $('staffList').onclick=async e=>{
@@ -249,6 +251,14 @@ $('staffList').onclick=async e=>{
  try{await call('setStaffStatus',{uid:b.dataset.staff,status});notify('직원 상태를 변경했습니다.');await loadStaff();}
  catch(x){alert(errText(x));}finally{b.disabled=false;}
 };
+$('staffList').addEventListener('click',async e=>{
+ const b=e.target.closest('[data-manager-uid]');if(!b||role!=='admin')return;
+ const enabled=b.dataset.managerEnable==='true';
+ if(!confirm(enabled?'유앤아이 의정부점에 직원 승인·차단을 제외한 재고관리 권한을 부여할까요?':'유앤아이 의정부점의 재고관리 담당자 권한을 회수할까요?'))return;
+ b.disabled=true;
+ try{await call('setSpecialInventoryManager',{uid:b.dataset.managerUid,enabled});notify(enabled?'재고관리 담당자 권한을 부여했습니다.':'재고관리 담당자 권한을 회수했습니다.');await loadStaff();}
+ catch(x){alert(errText(x));}finally{b.disabled=false;}
+});
 $('refreshStaff').onclick=loadStaff;
 $('exportCsv').onclick=()=>{
  const safeCell=v=>{let s=String(v??'');if(/^[\s]*[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};
