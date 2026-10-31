@@ -1,0 +1,26 @@
+{
+  "name": "유앤아이 의정부점 · 원내 재고관리",
+  "short_name": "재고관리",
+  "description": "유앤아이 의정부점 원내 물품 발주, 입고, 사용 및 재고 관리",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fa",
+  "theme_color": "#183b65",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "ko-KR"
+}
